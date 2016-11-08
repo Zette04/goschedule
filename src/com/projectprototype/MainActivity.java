@@ -328,8 +328,6 @@ public class MainActivity extends AppCompatActivity {
 				public void onCancelled(DatabaseError databaseError) {
 				}
 			});
-		}else {
-			getMenuInflater().inflate(R.menu.admin, menu);
 		}
 
 

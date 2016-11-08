@@ -63,24 +63,26 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 	private FirebaseAuth.AuthStateListener mAuthListener;
 	private KeyListener listener;
 
+	String testsession = "mary.l.l.dela.torre@accenture.com";
+	String testsessioneid = "mary.l.l.dela.torre";
+
 	FirebaseDatabase database = FirebaseDatabase.getInstance();
 	Calendar myCalendar = Calendar.getInstance();
 	private FirebaseAuth mAuth;
 
-	String testsession = "mary.l.l.dela.torre@accenture.com";
-	
+
 	DatePickerDialog.OnDateSetListener date2 = new DatePickerDialog.OnDateSetListener() {
 
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 			// TODO Auto-generated method stub
 			myCalendar.set(Calendar.YEAR, year);
-	        myCalendar.set(Calendar.MONTH, monthOfYear);
-	        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-	        updateLabel();
+			myCalendar.set(Calendar.MONTH, monthOfYear);
+			myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+			updateLabel();
 		}
-		
-		
+
+
 	};
 
 
@@ -101,7 +103,7 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 
 		//Firebase.setAndroidContext(this);
 		//Firebase f = new Firebase("https://goschedule-50998.firebaseio.com/");
-		//f.setValue("Hello World! version 2.0");		
+		//f.setValue("Hello World! version 2.0");
 
 		submitButton = (Button) findViewById(R.id.leaveSubmit);
 		cancelButton = (Button) findViewById(R.id.leaveCancel);
@@ -115,98 +117,98 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 		status.setVisibility(View.GONE);
 
 		String c = "[@]";
-		final String nameEID = testsession;
+		final String[] nameEID = user.getEmail().split(c);
 
 
-		name.setText(testsession, TextView.BufferType.EDITABLE);;
+		name.setText(testsessioneid, TextView.BufferType.EDITABLE);;
 		listener = name.getKeyListener();
 		final String forCheck = testsession;
 
 
-			if (adminCheck) {
-				name.setKeyListener(listener);
-			}
-			Query adminQuery = database.getReference().child("admin").limitToFirst(20);
+		if (adminCheck) {
+			name.setKeyListener(listener);
+		}
+		Query adminQuery = database.getReference().child("admin").limitToFirst(20);
 
-			//adminQuery.addValueEventListener(new ValueEventListener() {
-			adminQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-				@Override
-				public void onDataChange(DataSnapshot dataSnapshot) {
-					for (DataSnapshot adminSnapshot : dataSnapshot.getChildren()) {
-						String value = (String) adminSnapshot.getValue();
-						names[0] = value;
-						names[0] = names[0].replaceAll("\\s", "");
-						//Toast.makeText(LoginActivity.this, names[0], Toast.LENGTH_SHORT).show();
+		//adminQuery.addValueEventListener(new ValueEventListener() {
+		adminQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				for (DataSnapshot adminSnapshot : dataSnapshot.getChildren()) {
+					String value = (String) adminSnapshot.getValue();
+					names[0] = value;
+					names[0] = names[0].replaceAll("\\s", "");
+					//Toast.makeText(LoginActivity.this, names[0], Toast.LENGTH_SHORT).show();
 
-						String[] admins = names[0].split(",");
+					String[] admins = names[0].split(",");
 
-						for (int i = 0; i < admins.length; i++) {
-							if (admins[i].equals(forCheck)) {
-								//Toast.makeText(LoginActivity.this, "admin", Toast.LENGTH_SHORT).show();
-								adminCheck = true;
-							}
+					for (int i = 0; i < admins.length; i++) {
+						if (admins[i].equals(forCheck)) {
+							//Toast.makeText(LoginActivity.this, "admin", Toast.LENGTH_SHORT).show();
+							adminCheck = true;
 						}
-
-						if (adminCheck) {
-							name.setKeyListener(listener);
-						} else {
-							name.setKeyListener(null);
-						}
-
 					}
+
+					if (adminCheck) {
+						name.setKeyListener(listener);
+					} else {
+						name.setKeyListener(null);
+					}
+
 				}
+			}
 
-				@Override
-				public void onCancelled(DatabaseError databaseError) {
-				}
-			});
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+			}
+		});
 
 
 
 
-		
+
 		type.setOnItemSelectedListener(this);
 		final Calendar myCalendar = Calendar.getInstance();
-		
+
 		date.setOnClickListener(new OnClickListener() {
 
-	        @Override
-	        public void onClick(View v) {
-	            // TODO Auto-generated method stub
-	            new DatePickerDialog(LeaveActivity.this, date2, myCalendar
-	                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-	                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-	        }
-	    });
-		
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new DatePickerDialog(LeaveActivity.this, date2, myCalendar
+						.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+						myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+			}
+		});
+
 		submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitLeave(v);
-            }
-        });
+			@Override
+			public void onClick(View v) {
+				submitLeave(v);
+			}
+		});
 		cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelView(v);
-            }
-        });
-		
-		
-				
+			@Override
+			public void onClick(View v) {
+				cancelView(v);
+			}
+		});
+
+
+
 	}
 
 
-	
+
 	private void updateLabel() {
 
-	    String myFormat = "MM/dd/yyyy"; //In which you need put here
-	    SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+		String myFormat = "MM/dd/yyyy"; //In which you need put here
+		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-	    date.setText(sdf.format(myCalendar.getTime()));
-	    }
-	
-	
+		date.setText(sdf.format(myCalendar.getTime()));
+	}
+
+
 	public void submitLeave(View view) {
 
 
@@ -233,15 +235,15 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 
 		}
 
-    }
-	
+	}
+
 	public void cancelView(View view) {
-        //Intent intent1 = new Intent(this, MainActivity.class);
-        //intent1.putExtra("message", "Canceled.");
-        //startActivity(intent1);
+		//Intent intent1 = new Intent(this, MainActivity.class);
+		//intent1.putExtra("message", "Canceled.");
+		//startActivity(intent1);
 		finish();
-    }
-	
+	}
+
 
 
 	public boolean createLogFB(String name, String date, String type, String backup, String status, String checker) {
@@ -275,12 +277,8 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 				}
 				return Transaction.success(uid);
 			}
-
-
-
 			@Override
 			public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-
 			}
 		});*/
 
@@ -308,7 +306,7 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public boolean onCreateOptionsMenu(final Menu menu) {
@@ -335,7 +333,7 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 						String[] admins = names[0].split(",");
 
 						for (int i = 0; i < admins.length ; i++){
-							if (admins[i].equals(user.getEmail())){
+							if (admins[i].equals(testsession)){
 								//Toast.makeText(LoginActivity.this, "admin", Toast.LENGTH_SHORT).show();
 								adminCheck = true;
 							}
@@ -354,6 +352,8 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 				public void onCancelled(DatabaseError databaseError) {
 				}
 			});
+		}else {
+			getMenuInflater().inflate(R.menu.admin, menu);
 		}
 
 
@@ -393,7 +393,6 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 
 
 		/*Intent intent = new Intent(this, LoginActivity.class);
-
 		MainActivity.this.finish();
 		MainActivity.this.startActivity(intent);*/
 			FirebaseAuth.getInstance().signOut();
@@ -446,7 +445,7 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 			progressDialog.setIndeterminate(true);
 			progressDialog.setMessage("Sending email...");
 			progressDialog.show();
-			mAuth.sendPasswordResetEmail(user.getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
+			mAuth.sendPasswordResetEmail(testsession).addOnCompleteListener(new OnCompleteListener<Void>() {
 				@Override
 				public void onComplete(@NonNull Task<Void> task) {
 					if (task.isSuccessful()) {
