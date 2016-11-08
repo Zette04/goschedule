@@ -66,7 +66,8 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 	FirebaseDatabase database = FirebaseDatabase.getInstance();
 	Calendar myCalendar = Calendar.getInstance();
 	private FirebaseAuth mAuth;
-	
+
+	String testsession = "mary.l.l.dela.torre@accenture.com";
 	
 	DatePickerDialog.OnDateSetListener date2 = new DatePickerDialog.OnDateSetListener() {
 
@@ -114,12 +115,12 @@ public class LeaveActivity extends AppCompatActivity implements OnItemSelectedLi
 		status.setVisibility(View.GONE);
 
 		String c = "[@]";
-		final String[] nameEID = user.getEmail().split(c);
+		final String nameEID = testsession;
 
 
-		name.setText(nameEID[0], TextView.BufferType.EDITABLE);;
+		name.setText(testsession, TextView.BufferType.EDITABLE);;
 		listener = name.getKeyListener();
-		final String forCheck = nameEID[0] + "@accenture.com";
+		final String forCheck = testsession;
 
 
 			if (adminCheck) {
