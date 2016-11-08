@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 	private FirebaseAuth.AuthStateListener mAuthListener;
 
+	String testsession = "mary.l.l.dela.torre@accenture.com";
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 	private ProgressBar progressBar;
 	//Resource class for Firebase use
@@ -140,11 +142,13 @@ public class MainActivity extends AppCompatActivity {
 		mAuth = FirebaseAuth.getInstance();
 
 		FirebaseUser user = mAuth.getCurrentUser();
+
+
 		if (user != null) {
 			// User is not logged in
-			Toast.makeText(MainActivity.this, "Welcome " + user.getEmail() + "!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(MainActivity.this, "Welcome " + testsession + "!", Toast.LENGTH_SHORT).show();
 		}
-
+		Toast.makeText(MainActivity.this, "Welcome " + testsession + "!", Toast.LENGTH_SHORT).show();
 
 		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 		setSupportActionBar(myToolbar);
@@ -305,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
 						String[] admins = names[0].split(",");
 
 						for (int i = 0; i < admins.length ; i++){
-							if (admins[i].equals(user.getEmail())){
+							if (admins[i].equals(testsession)){
 								//Toast.makeText(LoginActivity.this, "admin", Toast.LENGTH_SHORT).show();
 								adminCheck = true;
 							}
@@ -325,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
 				}
 			});
 		}else {
-			getMenuInflater().inflate(R.menu.main, menu);
+			getMenuInflater().inflate(R.menu.admin, menu);
 		}
 
 
